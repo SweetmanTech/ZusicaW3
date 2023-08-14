@@ -4,14 +4,19 @@ import abi from "../lib/abi-ZoraNFTCreatorProxy.json"
 import { useEthersSigner } from "../lib/useEthersSigner"
 import getZoraNFTCreatorProxyAddress from "../lib/getZoraNFTCreatorProxyAddress"
 import handleTxError from "../lib/handleTxError"
+import { uploadToIpfs } from "../lib/ipfs"
+import { useDeploy } from "../providers/DeployContext"
 
 const useZoraDeploy = () => {
   const signer = useEthersSigner()
   const { chain } = useNetwork()
   const { address } = useAccount()
+  const { audioFile } = useDeploy()
 
   const createEditionWithReferral = async () => {
     try {
+      const cid = await uploadToIpfs(audioFile)
+      console.log("SWEETS CID", cid)
       const zoraNFTCreatorProxyAddres = getZoraNFTCreatorProxyAddress(chain?.id)
       const contract = new Contract(zoraNFTCreatorProxyAddres, abi, signer)
       const name = ""
