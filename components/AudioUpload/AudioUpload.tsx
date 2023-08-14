@@ -1,4 +1,5 @@
 import { useDeploy } from "../../providers/DeployContext"
+import Waveform from "../Waveform"
 
 const AudioUpload = () => {
   const { setAudioFile, audioSrc, setAudioSrc } = useDeploy()
@@ -27,6 +28,7 @@ const AudioUpload = () => {
           Play
         </button>
       )}
+      {audioSrc && <Waveform height={100} url={audioSrc} />}
     </div>
   )
 }
