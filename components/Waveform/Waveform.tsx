@@ -5,12 +5,10 @@ const Waveform = (props) => {
   const containerRef = useRef()
   const { wavesurfer, regions, isPlaying, currentTime } = useWaveform(containerRef, props)
 
-  const onPlayClick = useCallback(() => {
-    const playable = regions.getRegions()[0]
-    console.log("SWEETS PLAY SNIPPET?", regions.getRegions())
-
-    return wavesurfer.isPlaying() ? wavesurfer.pause() : playable.play()
-  }, [wavesurfer, regions])
+  const onPlayClick = useCallback(
+    () => (wavesurfer.isPlaying() ? wavesurfer.pause() : regions.getRegions()[0].play()),
+    [wavesurfer, regions],
+  )
 
   return (
     <>
