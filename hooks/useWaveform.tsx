@@ -21,6 +21,7 @@ const useWaveform = (containerRef, options) => {
         plugins: [RegionsPlugin.create()],
       }) as any
 
+      // MOVE THIS TO USEWAVEFORMREGION HOOK
       const wsRegions = ws.registerPlugin(RegionsPlugin.create())
 
       wsRegions.addRegion({
@@ -36,6 +37,8 @@ const useWaveform = (containerRef, options) => {
       wsRegions.on("region-out", (region) => {
         region.play()
       })
+
+      //   END REGION HOOK
 
       ws?.load?.(options.url)
 
