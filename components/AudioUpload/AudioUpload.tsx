@@ -1,8 +1,7 @@
-import { useState } from "react"
+import { useDeploy } from "../../providers/DeployContext"
 
 const AudioUpload = () => {
-  const [audioFile, setAudioFile] = useState(null)
-  const [audioSrc, setAudioSrc] = useState(null)
+  const { setAudioFile, audioSrc, setAudioSrc } = useDeploy()
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
