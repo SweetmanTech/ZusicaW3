@@ -19,15 +19,6 @@ const AudioUpload = () => {
         <span>Select Audio</span>
         <input type="file" accept="audio/*" onChange={handleFileChange} className="hidden" />
       </label>
-      {audioSrc && (
-        <button
-          type="button"
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4"
-          onClick={() => new Audio(audioSrc).play()}
-        >
-          Play
-        </button>
-      )}
       {audioSrc && <Waveform height={100} url={audioSrc} />}
     </div>
   )

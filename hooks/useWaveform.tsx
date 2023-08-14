@@ -4,6 +4,7 @@ import RegionsPlugin from "wavesurfer.js/dist/plugins/regions"
 
 const useWaveform = (containerRef, options) => {
   const [wavesurfer, setWavesurfer] = useState(null)
+  const [regions, setRegions] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
 
@@ -32,6 +33,9 @@ const useWaveform = (containerRef, options) => {
         drag: true,
         resize: true,
       })
+      wsRegions.on("region-out", (region) => {
+        region.play()
+      })
 
       ws?.load?.(options.url)
 
@@ -49,13 +53,14 @@ const useWaveform = (containerRef, options) => {
       ws.on("timeupdate", (newTime) => setCurrentTime(newTime))
 
       setWavesurfer(ws)
+      setRegions(wsRegions)
     }
 
     if (!containerRef.current) return
     init()
   }, [options, containerRef])
 
-  return { isPlaying, currentTime, wavesurfer }
+  return { isPlaying, currentTime, wavesurfer, regions }
 }
 
 export default useWaveform
