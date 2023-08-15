@@ -1,16 +1,13 @@
 /* eslint-disable global-require */
 import { useCallback, useEffect, useRef, useState } from "react"
-// import WaveSurfer from "wavesurfer.js"
-// import RegionsPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min.js"
+import useRegionPlugin from "./useRegionPlugin"
 
 const useWaveform = (audioUrl) => {
   const waveformRef = useRef()
   const [wavesurfer, setWavesurfer] = useState(null)
-  const [znippetStart, setZnippetStart] = useState(0)
-  const [znippetEnd, setZnippetEnd] = useState(0)
-  const [regionId, setRegionId] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
+  const { znippetStart, znippetEnd, regionId } = useRegionPlugin(wavesurfer)
 
   const onPlayClick = useCallback(() => {
     if (wavesurfer.isPlaying()) {
@@ -44,25 +41,6 @@ const useWaveform = (audioUrl) => {
           }),
         ],
       }) as any
-
-      // MOVE THIS TO USEWAVEFORMREGION HOOK
-      const MAX_LENGTH = 30
-      ws.enableDragSelection({
-        maxLength: MAX_LENGTH,
-        color: "rgb(255,255,255,0.7)",
-      })
-
-      ws.on("region-update-end", (region: any) => {
-        setZnippetStart(region.start)
-        const tooLong = region.end - region.start > MAX_LENGTH
-        setZnippetEnd(tooLong ? region.start + 30 : region.end)
-        setRegionId(region.id)
-      })
-
-      ws.on("region-out", (region) => {
-        region.play()
-      })
-      //   END REGION HOOK
 
       ws?.load?.(audioUrl)
 
