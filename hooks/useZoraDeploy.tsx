@@ -48,7 +48,7 @@ const useZoraDeploy = () => {
       const description = ""
       const animationUri = `ipfs://${cid}`
       const imageUri = ""
-      const createReferral = address
+      const createReferral = process.env.NEXT_PUBLIC_CREATE_REFERRAL || address
       const tx = await contract.createEditionWithReferral(
         name,
         symbol,
