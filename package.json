@@ -24,11 +24,13 @@
     "next": "^12.2.2",
     "next-api-decorators": "^2.0.0",
     "next-auth": "^4.20.1",
+    "nft.storage": "^7.1.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-toastify": "^9.1.1",
     "viem": "^1.5.3",
-    "wagmi": "^1.3.9"
+    "wagmi": "^1.3.9",
+    "wavesurfer.js": "^6.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
