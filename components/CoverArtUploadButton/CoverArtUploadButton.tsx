@@ -15,7 +15,12 @@ const CoverArtUploadButton = () => {
     <div>
       <label className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
         <span>Elige una foto</span>
-        <input type="file" accept="image/*, .gif" onChange={handleFileChange} className="hidden" />
+        <input
+          type="file"
+          accept="image/*, .gif, .mov"
+          onChange={handleFileChange}
+          className="hidden"
+        />
       </label>
       {cubierta && <Image width={250} height={250} src={src} alt="cubierta" />}
     </div>
