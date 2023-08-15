@@ -8,7 +8,9 @@ export const useDeploy = () => useContext(DeployContext)
 export const DeployProvider = ({ children }) => {
   const [audioFile, setAudioFile] = useState(null)
   const [audioSrc, setAudioSrc] = useState(null)
-  const [imageFile, setImageFile] = useState(null)
+  const [cubierta, setCover] = useState(null)
+  const [titulo, setTitle] = useState("")
+  const [descripcion, setDescription] = useState("")
   const waveformHook = useWaveform(audioSrc)
 
   const value = useMemo(
@@ -17,11 +19,27 @@ export const DeployProvider = ({ children }) => {
       setAudioFile,
       audioSrc,
       setAudioSrc,
-      imageFile,
-      setImageFile,
+      cubierta,
+      setCover,
+      titulo,
+      setTitle,
+      descripcion,
+      setDescription,
       ...waveformHook,
     }),
-    [audioFile, setAudioFile, audioSrc, setAudioSrc, imageFile, setImageFile, waveformHook],
+    [
+      audioFile,
+      setAudioFile,
+      audioSrc,
+      setAudioSrc,
+      cubierta,
+      setCover,
+      titulo,
+      setTitle,
+      waveformHook,
+      descripcion,
+      setDescription,
+    ],
   )
 
   return <DeployContext.Provider value={value}>{children}</DeployContext.Provider>

@@ -2,12 +2,12 @@ import Image from "next/image"
 import { useDeploy } from "../../providers/DeployContext"
 
 const CoverArtUploadButton = () => {
-  const { setImageFile, imageFile } = useDeploy()
-  const src = imageFile && URL.createObjectURL(imageFile)
+  const { setCover, cubierta } = useDeploy()
+  const src = cubierta && URL.createObjectURL(cubierta)
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     if (file) {
-      setImageFile(file)
+      setCover(file)
     }
   }
 
@@ -17,7 +17,7 @@ const CoverArtUploadButton = () => {
         <span>Elige una foto</span>
         <input type="file" accept="image/*, .gif" onChange={handleFileChange} className="hidden" />
       </label>
-      {imageFile && <Image width={250} height={250} src={src} alt="cubierta" />}
+      {cubierta && <Image width={250} height={250} src={src} alt="cubierta" />}
     </div>
   )
 }
