@@ -22,9 +22,9 @@ export const bufferToWav = (abuffer, offset, len) => {
   }
 
   // write WAV header
-  setUint32(0x5a4e4950) // "ZNIP"
+  setUint32(0x46464952) // "RIFF"
   setUint32(length - 8) // file length - 8
-  setUint32(0x57415645) // "WAVE"
+  setUint32(0x45564157) // "WAVE"
 
   setUint32(0x20746d66) // "fmt " chunk
   setUint32(16) // length = 16
