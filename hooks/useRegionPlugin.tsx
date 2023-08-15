@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 
+const MAX_LENGTH = 30
+
 const useRegionPlugin = (ws) => {
   const [znippetStart, setZnippetStart] = useState(0)
   const [znippetEnd, setZnippetEnd] = useState(30)
@@ -7,8 +9,6 @@ const useRegionPlugin = (ws) => {
 
   useEffect(() => {
     const init = async () => {
-      const MAX_LENGTH = 30
-
       ws.on("region-update-end", (region: any) => {
         setZnippetStart(region.start)
         const tooLong = region.end - region.start > MAX_LENGTH
