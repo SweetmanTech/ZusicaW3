@@ -1,16 +1,32 @@
-import { useEffect, useRef, useState } from "react"
-import WaveSurfer from "wavesurfer.js"
-import RegionsPlugin from "wavesurfer.js/dist/plugins/regions"
+/* eslint-disable global-require */
+import { useCallback, useEffect, useRef, useState } from "react"
+// import WaveSurfer from "wavesurfer.js"
+// import RegionsPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min.js"
 
 const useWaveform = (audioUrl) => {
   const waveformRef = useRef()
   const [wavesurfer, setWavesurfer] = useState(null)
-  const [regions, setRegions] = useState(null)
+  const [znippetStart, setZnippetStart] = useState(0)
+  const [znippetEnd, setZnippetEnd] = useState(0)
+  const [regionId, setRegionId] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
 
+  const onPlayClick = useCallback(() => {
+    if (wavesurfer.isPlaying()) {
+      return wavesurfer.pause()
+    }
+    if (regionId) {
+      return wavesurfer.regions.list[regionId].playLoop()
+    }
+    return wavesurfer.play()
+  }, [wavesurfer, regionId])
+
   useEffect(() => {
     const init = async () => {
+      const RegionsPlugin = require("wavesurfer.js/dist/plugin/wavesurfer.regions.min.js")
+      const WaveSurfer = (await import("wavesurfer.js")).default
+
       const ws = WaveSurfer.create({
         height: 100,
         url: audioUrl,
@@ -20,26 +36,32 @@ const useWaveform = (audioUrl) => {
         barWidth: 4,
         barRadius: 4,
         cursorWidth: 3,
-        plugins: [RegionsPlugin.create()],
+        plugins: [
+          RegionsPlugin.create({
+            maxLength: 20,
+            maxRegions: 1,
+            minLength: 5,
+          }),
+        ],
       }) as any
 
       // MOVE THIS TO USEWAVEFORMREGION HOOK
-      const wsRegions = ws.registerPlugin(RegionsPlugin.create())
-
-      wsRegions.addRegion({
-        start: 0,
-        end: 30,
-        minLength: 7,
-        maxLength: 30,
-        content: "znippet",
-        color: "rgba(255,255,255, 0.5)",
-        drag: true,
-        resize: true,
+      const MAX_LENGTH = 30
+      ws.enableDragSelection({
+        maxLength: MAX_LENGTH,
+        color: "rgb(255,255,255,0.7)",
       })
-      wsRegions.on("region-out", (region) => {
+
+      ws.on("region-update-end", (region: any) => {
+        setZnippetStart(region.start)
+        const tooLong = region.end - region.start > MAX_LENGTH
+        setZnippetEnd(tooLong ? region.start + 30 : region.end)
+        setRegionId(region.id)
+      })
+
+      ws.on("region-out", (region) => {
         region.play()
       })
-
       //   END REGION HOOK
 
       ws?.load?.(audioUrl)
@@ -58,14 +80,13 @@ const useWaveform = (audioUrl) => {
       ws.on("timeupdate", (newTime) => setCurrentTime(newTime))
 
       setWavesurfer(ws)
-      setRegions(wsRegions)
     }
 
     if (!waveformRef.current) return
     init()
   }, [audioUrl, waveformRef])
 
-  return { isPlaying, currentTime, wavesurfer, regions, waveformRef }
+  return { isPlaying, currentTime, wavesurfer, waveformRef, znippetStart, znippetEnd, onPlayClick }
 }
 
 export default useWaveform
