@@ -1,13 +1,7 @@
-import { useCallback } from "react"
 import { useDeploy } from "../../providers/DeployContext"
 
 const Waveform = () => {
-  const { isPlaying, currentTime, waveformRef, wavesurfer, regions } = useDeploy()
-
-  const onPlayClick = useCallback(
-    () => (wavesurfer.isPlaying() ? wavesurfer.pause() : regions.getRegions()[0].play()),
-    [wavesurfer, regions],
-  )
+  const { isPlaying, currentTime, waveformRef, onPlayClick } = useDeploy()
 
   return (
     <>
