@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import WaveSurfer from "wavesurfer.js"
 import RegionsPlugin from "wavesurfer.js/dist/plugins/regions"
 
-const useWaveform = (containerRef, options) => {
+const useWaveform = (audioUrl) => {
+  const waveformRef = useRef()
   const [wavesurfer, setWavesurfer] = useState(null)
   const [regions, setRegions] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -11,9 +12,10 @@ const useWaveform = (containerRef, options) => {
   useEffect(() => {
     const init = async () => {
       const ws = WaveSurfer.create({
-        ...options,
+        height: 100,
+        url: audioUrl,
         waveColor: "#3d78ac",
-        container: containerRef.current,
+        container: waveformRef.current,
         barGap: 2,
         barWidth: 4,
         barRadius: 4,
@@ -40,7 +42,7 @@ const useWaveform = (containerRef, options) => {
 
       //   END REGION HOOK
 
-      ws?.load?.(options.url)
+      ws?.load?.(audioUrl)
 
       ws?.on?.("audioprocess", () => {
         const time = ws?.getCurrentTime?.()
@@ -59,11 +61,11 @@ const useWaveform = (containerRef, options) => {
       setRegions(wsRegions)
     }
 
-    if (!containerRef.current) return
+    if (!waveformRef.current) return
     init()
-  }, [options, containerRef])
+  }, [audioUrl, waveformRef])
 
-  return { isPlaying, currentTime, wavesurfer, regions }
+  return { isPlaying, currentTime, wavesurfer, regions, waveformRef }
 }
 
 export default useWaveform
