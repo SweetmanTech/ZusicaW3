@@ -19,7 +19,7 @@ const AudioUpload = () => {
         <span>Select Audio</span>
         <input type="file" accept="audio/*" onChange={handleFileChange} className="hidden" />
       </label>
-      {audioSrc && <Waveform height={100} url={audioSrc} />}
+      {audioSrc && <Waveform />}
     </div>
   )
 }
