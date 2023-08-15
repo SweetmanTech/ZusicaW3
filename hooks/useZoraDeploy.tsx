@@ -1,17 +1,29 @@
 import { Contract } from "ethers"
 import { useAccount, useNetwork } from "wagmi"
+import { useRouter } from "next/router"
 import abi from "../lib/abi-ZoraNFTCreatorProxy.json"
 import { useEthersSigner } from "../lib/useEthersSigner"
 import getZoraNFTCreatorProxyAddress from "../lib/getZoraNFTCreatorProxyAddress"
 import handleTxError from "../lib/handleTxError"
 import { useDeploy } from "../providers/DeployContext"
 import { uploadZnippetToIpfs } from "../lib/uploadZnippetToIpfs"
+import { getZoraMintUrl } from "../lib/getZoraMintUrl"
 
 const useZoraDeploy = () => {
+  const { push } = useRouter()
   const signer = useEthersSigner()
   const { chain } = useNetwork()
   const { address } = useAccount()
   const { audioFile, wavesurfer, znippetStart, znippetEnd } = useDeploy()
+
+  const onSuccess = (receipt) => {
+    const { events } = receipt
+    const finalEvent = events[events.length - 1]
+    const finalEventArgs = finalEvent.args
+    const contractAddress = finalEventArgs.editionContractAddress
+    const mintPageUrl = getZoraMintUrl(chain.id, contractAddress)
+    push(mintPageUrl)
+  }
 
   const createEditionWithReferral = async () => {
     try {
@@ -51,7 +63,8 @@ const useZoraDeploy = () => {
         imageUri,
         createReferral,
       )
-      await tx.wait()
+      const receipt = await tx.wait()
+      onSuccess(receipt)
     } catch (err) {
       handleTxError(err)
     }
