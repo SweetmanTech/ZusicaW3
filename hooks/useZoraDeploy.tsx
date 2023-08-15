@@ -28,7 +28,6 @@ const useZoraDeploy = () => {
   const createEditionWithReferral = async () => {
     try {
       const cid = await uploadZnippetToIpfs(wavesurfer, znippetStart, znippetEnd, audioFile.type)
-      console.log("SWEETS CID", cid)
       const zoraNFTCreatorProxyAddres = getZoraNFTCreatorProxyAddress(chain?.id)
       const contract = new Contract(zoraNFTCreatorProxyAddres, abi, signer)
       const name = ""
