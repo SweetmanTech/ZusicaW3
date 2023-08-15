@@ -51,7 +51,6 @@ const useZoraDeploy = () => {
       const animationUri = audioCid ? `ipfs://${audioCid}` : ""
       const imageUri = `ipfs://${imageCid}`
       const createReferral = process.env.NEXT_PUBLIC_CREATE_REFERRAL || address
-      console.log("SWEETS SIGNING", titulo)
       const tx = await contract.createEditionWithReferral(
         name,
         symbol,
