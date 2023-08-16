@@ -34,7 +34,7 @@ const useZoraDeploy = () => {
       const contract = new Contract(zoraNFTCreatorProxyAddres, abi, signer)
       const name = titulo || ""
       const symbol = "MW3"
-      const editionSize = 10_000
+      const editionSize = "18446744073709551615"
       const royaltyBps = 500
       const fundsRecipient = address
       const defaultAdmin = address
