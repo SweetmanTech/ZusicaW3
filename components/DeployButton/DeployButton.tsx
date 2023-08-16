@@ -14,7 +14,7 @@ const DeployButton = () => {
 
   return (
     <button type="button" onClick={handleClick} className="border border-white rounded-xl p-3">
-      {loading ? "Deploying..." : "Deploy on Zora"}
+      {loading ? "Desplegando en Zora..." : "Desplegar en Zora"}
     </button>
   )
 }

@@ -8,13 +8,14 @@ import handleTxError from "../lib/handleTxError"
 import { useDeploy } from "../providers/DeployContext"
 import { uploadZnippetToIpfs } from "../lib/uploadZnippetToIpfs"
 import { getZoraMintUrl } from "../lib/getZoraMintUrl"
+import { uploadToIpfs } from "../lib/ipfs"
 
 const useZoraDeploy = () => {
   const { push } = useRouter()
   const signer = useEthersSigner()
   const { chain } = useNetwork()
   const { address } = useAccount()
-  const { audioFile, wavesurfer, znippetStart, znippetEnd } = useDeploy()
+  const { audioFile, cubierta, titulo, descripcion } = useDeploy()
 
   const onSuccess = (receipt) => {
     const { events } = receipt
@@ -27,12 +28,13 @@ const useZoraDeploy = () => {
 
   const createEditionWithReferral = async () => {
     try {
-      const cid = await uploadZnippetToIpfs(wavesurfer, znippetStart, znippetEnd, audioFile.type)
+      const audioCid = audioFile ? await uploadToIpfs(audioFile) : ""
+      const imageCid = await uploadToIpfs(cubierta)
       const zoraNFTCreatorProxyAddres = getZoraNFTCreatorProxyAddress(chain?.id)
       const contract = new Contract(zoraNFTCreatorProxyAddres, abi, signer)
-      const name = ""
-      const symbol = ""
-      const editionSize = 10_000
+      const name = titulo || ""
+      const symbol = "MW3"
+      const editionSize = "18446744073709551615"
       const royaltyBps = 500
       const fundsRecipient = address
       const defaultAdmin = address
@@ -45,9 +47,9 @@ const useZoraDeploy = () => {
         presaleEnd: 0,
         presaleMerkleRoot: "0x0000000000000000000000000000000000000000000000000000000000000000",
       }
-      const description = ""
-      const animationUri = `ipfs://${cid}`
-      const imageUri = ""
+      const description = descripcion
+      const animationUri = audioCid ? `ipfs://${audioCid}` : ""
+      const imageUri = `ipfs://${imageCid}`
       const createReferral = process.env.NEXT_PUBLIC_CREATE_REFERRAL || address
       const tx = await contract.createEditionWithReferral(
         name,

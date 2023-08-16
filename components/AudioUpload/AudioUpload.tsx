@@ -16,7 +16,7 @@ const AudioUpload = () => {
   return (
     <div>
       <label className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
-        <span>Select Audio</span>
+        <span>Seleccionar sonido</span>
         <input type="file" accept="audio/*" onChange={handleFileChange} className="hidden" />
       </label>
       {audioSrc && <Waveform />}
