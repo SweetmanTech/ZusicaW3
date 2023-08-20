@@ -5,7 +5,6 @@ const AnimationUpload = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
-    console.log("SWEETS FILE", file.type)
     if (file) {
       if (file.type.includes("audio")) {
         setCover(file)
@@ -28,7 +27,6 @@ const AnimationUpload = () => {
           className="hidden"
         />
       </label>
-      {/* {audioSrc && <Waveform />} */}
     </div>
   )
 }
