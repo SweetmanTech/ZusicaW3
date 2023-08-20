@@ -6,7 +6,6 @@ import { useEthersSigner } from "../lib/useEthersSigner"
 import getZoraNFTCreatorProxyAddress from "../lib/getZoraNFTCreatorProxyAddress"
 import handleTxError from "../lib/handleTxError"
 import { useDeploy } from "../providers/DeployContext"
-import { uploadZnippetToIpfs } from "../lib/uploadZnippetToIpfs"
 import { getZoraMintUrl } from "../lib/getZoraMintUrl"
 import { uploadToIpfs } from "../lib/ipfs"
 
@@ -15,7 +14,7 @@ const useZoraDeploy = () => {
   const signer = useEthersSigner()
   const { chain } = useNetwork()
   const { address } = useAccount()
-  const { audioFile, cubierta, titulo, descripcion } = useDeploy()
+  const { animationFile, cubierta, titulo, descripcion, direccionDePago } = useDeploy()
 
   const onSuccess = (receipt) => {
     const { events } = receipt
@@ -28,7 +27,7 @@ const useZoraDeploy = () => {
 
   const createEditionWithReferral = async () => {
     try {
-      const audioCid = audioFile ? await uploadToIpfs(audioFile) : ""
+      const audioCid = animationFile ? await uploadToIpfs(animationFile) : ""
       const imageCid = await uploadToIpfs(cubierta)
       const zoraNFTCreatorProxyAddres = getZoraNFTCreatorProxyAddress(chain?.id)
       const contract = new Contract(zoraNFTCreatorProxyAddres, abi, signer)
@@ -36,7 +35,7 @@ const useZoraDeploy = () => {
       const symbol = "MW3"
       const editionSize = "18446744073709551615"
       const royaltyBps = 500
-      const fundsRecipient = address
+      const fundsRecipient = direccionDePago
       const defaultAdmin = address
       const salesConfig = {
         publicSalePrice: 0,
@@ -47,7 +46,7 @@ const useZoraDeploy = () => {
         presaleEnd: 0,
         presaleMerkleRoot: "0x0000000000000000000000000000000000000000000000000000000000000000",
       }
-      const description = descripcion
+      const description = descripcion.replace(/\n/g, "\\n")
       const animationUri = audioCid ? `ipfs://${audioCid}` : ""
       const imageUri = `ipfs://${imageCid}`
       const createReferral = process.env.NEXT_PUBLIC_CREATE_REFERRAL || address
