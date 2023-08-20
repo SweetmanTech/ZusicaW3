@@ -1,15 +1,10 @@
-import { useState } from "react"
 import { useDeploy } from "../../providers/DeployContext"
 
 const FundsRecipient = () => {
   const { setFundsRecipient, direccionDePago } = useDeploy()
-  const [address, setAddress] = useState("")
 
   const handleAddressChange = (e) => {
     const newAddress = e.target.value
-
-    // You might want to add further validations for the address format here.
-    setAddress(newAddress)
     setFundsRecipient(newAddress)
   }
 
@@ -20,7 +15,7 @@ const FundsRecipient = () => {
         <input
           type="text"
           placeholder={direccionDePago || "0x..."}
-          value={address}
+          value={direccionDePago}
           onChange={handleAddressChange}
           className="ml-4 p-2 border rounded text-black"
         />
