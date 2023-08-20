@@ -14,7 +14,7 @@ const useZoraDeploy = () => {
   const signer = useEthersSigner()
   const { chain } = useNetwork()
   const { address } = useAccount()
-  const { animationFile, cubierta, titulo, descripcion } = useDeploy()
+  const { animationFile, cubierta, titulo, descripcion, direccionDePago } = useDeploy()
 
   const onSuccess = (receipt) => {
     const { events } = receipt
@@ -35,7 +35,7 @@ const useZoraDeploy = () => {
       const symbol = "MW3"
       const editionSize = "18446744073709551615"
       const royaltyBps = 500
-      const fundsRecipient = address
+      const fundsRecipient = direccionDePago
       const defaultAdmin = address
       const salesConfig = {
         publicSalePrice: 0,

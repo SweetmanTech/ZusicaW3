@@ -1,4 +1,5 @@
-import { createContext, useState, useContext, useMemo, useRef } from "react"
+import { createContext, useState, useContext, useMemo } from "react"
+import { useAccount } from "wagmi"
 import useWaveform from "../hooks/useWaveform"
 
 const DeployContext = createContext({} as any)
@@ -6,11 +7,13 @@ const DeployContext = createContext({} as any)
 export const useDeploy = () => useContext(DeployContext)
 
 export const DeployProvider = ({ children }) => {
+  const { address } = useAccount()
   const [animationFile, setAnimationFile] = useState(null)
   const [animationSrc, setAnimationSrc] = useState(null)
   const [cubierta, setCover] = useState(null)
   const [titulo, setTitle] = useState("")
   const [descripcion, setDescription] = useState("")
+  const [direccionDePago, setFundsRecipient] = useState(address)
   const waveformHook = useWaveform(animationSrc)
 
   const value = useMemo(
@@ -25,6 +28,8 @@ export const DeployProvider = ({ children }) => {
       setTitle,
       descripcion,
       setDescription,
+      direccionDePago,
+      setFundsRecipient,
       ...waveformHook,
     }),
     [
@@ -39,6 +44,8 @@ export const DeployProvider = ({ children }) => {
       waveformHook,
       descripcion,
       setDescription,
+      direccionDePago,
+      setFundsRecipient,
     ],
   )
 

@@ -5,6 +5,7 @@ import { useDeploy } from "../../providers/DeployContext"
 import CoverArtUploadButton from "../CoverArtUploadButton"
 import TituloYDescripcion from "../TituloYDescripcion/TituloYDescripcion"
 import AnimationUpload from "../AnimationUpload"
+import FundsRecipient from "../FundsRecipient"
 
 const HomePage = () => {
   const { cubierta, animationFile } = useDeploy()
@@ -16,6 +17,7 @@ const HomePage = () => {
       {walletClient && <CoverArtUploadButton />}
       {walletClient && animationFile && <AnimationUpload />}
       {walletClient && <TituloYDescripcion />}
+      {walletClient && <FundsRecipient />}
       {cubierta && <DeployButton />}
     </div>
   )
