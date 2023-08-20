@@ -6,7 +6,6 @@ import { useEthersSigner } from "../lib/useEthersSigner"
 import getZoraNFTCreatorProxyAddress from "../lib/getZoraNFTCreatorProxyAddress"
 import handleTxError from "../lib/handleTxError"
 import { useDeploy } from "../providers/DeployContext"
-import { uploadZnippetToIpfs } from "../lib/uploadZnippetToIpfs"
 import { getZoraMintUrl } from "../lib/getZoraMintUrl"
 import { uploadToIpfs } from "../lib/ipfs"
 
@@ -15,7 +14,7 @@ const useZoraDeploy = () => {
   const signer = useEthersSigner()
   const { chain } = useNetwork()
   const { address } = useAccount()
-  const { audioFile, cubierta, titulo, descripcion } = useDeploy()
+  const { animationFile, cubierta, titulo, descripcion } = useDeploy()
 
   const onSuccess = (receipt) => {
     const { events } = receipt
@@ -28,7 +27,7 @@ const useZoraDeploy = () => {
 
   const createEditionWithReferral = async () => {
     try {
-      const audioCid = audioFile ? await uploadToIpfs(audioFile) : ""
+      const audioCid = animationFile ? await uploadToIpfs(animationFile) : ""
       const imageCid = await uploadToIpfs(cubierta)
       const zoraNFTCreatorProxyAddres = getZoraNFTCreatorProxyAddress(chain?.id)
       const contract = new Contract(zoraNFTCreatorProxyAddres, abi, signer)

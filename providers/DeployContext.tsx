@@ -6,19 +6,19 @@ const DeployContext = createContext({} as any)
 export const useDeploy = () => useContext(DeployContext)
 
 export const DeployProvider = ({ children }) => {
-  const [audioFile, setAudioFile] = useState(null)
-  const [audioSrc, setAudioSrc] = useState(null)
+  const [animationFile, setAnimationFile] = useState(null)
+  const [animationSrc, setAnimationSrc] = useState(null)
   const [cubierta, setCover] = useState(null)
   const [titulo, setTitle] = useState("")
   const [descripcion, setDescription] = useState("")
-  const waveformHook = useWaveform(audioSrc)
+  const waveformHook = useWaveform(animationSrc)
 
   const value = useMemo(
     () => ({
-      audioFile,
-      setAudioFile,
-      audioSrc,
-      setAudioSrc,
+      animationFile,
+      setAnimationFile,
+      animationSrc,
+      setAnimationSrc,
       cubierta,
       setCover,
       titulo,
@@ -28,10 +28,10 @@ export const DeployProvider = ({ children }) => {
       ...waveformHook,
     }),
     [
-      audioFile,
-      setAudioFile,
-      audioSrc,
-      setAudioSrc,
+      animationFile,
+      setAnimationFile,
+      animationSrc,
+      setAnimationSrc,
       cubierta,
       setCover,
       titulo,
