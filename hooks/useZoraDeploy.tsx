@@ -46,7 +46,7 @@ const useZoraDeploy = () => {
         presaleEnd: 0,
         presaleMerkleRoot: "0x0000000000000000000000000000000000000000000000000000000000000000",
       }
-      const description = descripcion
+      const description = descripcion.replace(/\n/g, "\\n")
       const animationUri = audioCid ? `ipfs://${audioCid}` : ""
       const imageUri = `ipfs://${imageCid}`
       const createReferral = process.env.NEXT_PUBLIC_CREATE_REFERRAL || address

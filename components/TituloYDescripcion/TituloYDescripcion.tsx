@@ -4,7 +4,7 @@ const TituloYDescripcion = () => {
   const { titulo, setTitle, descripcion, setDescription } = useDeploy()
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4  w-[500px]">
       <div>
         <label htmlFor="title" className="block mb-2">
           Titulo:
@@ -14,7 +14,7 @@ const TituloYDescripcion = () => {
           id="title"
           value={titulo}
           onChange={(e) => setTitle(e.target.value)}
-          className="p-2 rounded bg-white text-black"
+          className="p-2 rounded bg-white text-black w-full"
           placeholder="Titulo..."
         />
       </div>
@@ -26,7 +26,7 @@ const TituloYDescripcion = () => {
           id="descripcion"
           value={descripcion}
           onChange={(e) => setDescription(e.target.value)}
-          className="p-2 rounded bg-white text-black"
+          className="p-2 rounded bg-white text-black w-full"
           rows={4}
           placeholder="Descripcion..."
         />
